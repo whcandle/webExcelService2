@@ -1,0 +1,65 @@
+server:
+  port: 82
+  max-http-header-size: 102400
+
+spring:
+  datasource:
+
+    url: jdbc:oracle:thin:@10.1.1.158:1521:orcl
+
+    username: HBCZFS1107
+
+    password: 1
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 300
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      validation-query: SELECT 'x' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,slf4j
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      web-stat-filter.enabled: true
+      web-stat-filter.principal-session-name: username
+      stat-view-servlet.enabled:  true
+      stat-view-servlet.url-pattern:  /druid/*
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    database: oracle
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        enable_lazy_load_no_trans: true
+    open-in-view: true
+  data:
+    redis:
+      repositories:
+        enabled: false
+  servlet:
+    multipart:
+      # 最大文件上传大小 需同时改nginx配置
+      max-file-size: 200MB
+      max-request-size: 200MB
+logging:
+  level:
+    root: info
+    org.springframework.web.servlet.mvc.method.annotation: warn
+    org.apache.cxf.wsdl.service.factory: warn
+    # 屏蔽swagger日志
+    springfox.documentation.spring.web.readers.operation: warn
+    # 异常参数调试
+    com.yjxc.common.exception: debug
+    # 请求日志log (debug)有返回值 （info）没有返回值
+    com.yjxc.common.config: debug
+    com.yjxc: debug
+  path: c:/java/log
